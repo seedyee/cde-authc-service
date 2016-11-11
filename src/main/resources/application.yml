@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active: dev
+    
+logging:
+  file: my.log
+ 
+#eureka:
+#  client:
+#    healthcheck:
+#      enabled: true
+#    serviceUrl:
+#      defaultZone: http://discovery-server-1:8761/eureka/,http://discovery-server-2:8762/eureka/
+#
+#---
+#spring:
+#  profiles: primary
+#server:
+#  port: 8081
+#eureka:
+#  instance:
+#    hostname: registration-service-1
+#
+#---
+#spring:
+#  profiles: secondary
+#server:
+#  port: 8082
+#eureka:
+#  instance:
+#    hostname: registration-service-2
