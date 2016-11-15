@@ -1,7 +1,33 @@
 spring:
-  profiles:
-    active: dev
+  datasource:
+    url: jdbc:mysql://192.168.1.10:3306/solution-server?characterEncoding=utf8&useSSL=true
+    username: root
+    password: mytest
+    driver-class-name: com.mysql.jdbc.Driver
+
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 0
+    password: aline
+    pool:
+      max-active: 8
+      max-wait: 1
+      max-idle: 8
+      min-idle: 0 
+  output:
+    ansi:
+      enabled: DETECT
+        
+shiro:
+  session:
+    keyPrefix: "io.cde.auth.session.id:"
+    validtime: 18000
     
+userdao:
+  sql:
+    getAccountByPrincipal: "select user.username, user.email, user.password, email.f_verified as verified from f_email email, (select t.f_username as username, t.f_email as email, t.f_password as password from f_user t where t.f_username = ? or t.f_email = ?) user where email.f_email = user.email"
+
 logging:
   file: my.log
  
