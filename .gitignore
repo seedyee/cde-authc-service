@@ -3,6 +3,7 @@
 *.bak
 *~
 *.~ml
+*.iml
 *.orig
 *.msi
 *.log
@@ -12,5 +13,5 @@
 .settings
 .project
 
-
+.idea
 target
