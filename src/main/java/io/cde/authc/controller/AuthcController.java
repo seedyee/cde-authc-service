@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import io.cde.authc.domaim.Error;
 import io.cde.authc.domaim.Model;
 import io.cde.authc.tools.ResultUtils;
@@ -39,6 +38,9 @@ public class AuthcController {
     }catch (UnknownAccountException e) {
       e.printStackTrace();
       return ResultUtils.resultError(1000005, "用户不存在");
+    }catch (Exception e) {
+      e.printStackTrace();
+      return ResultUtils.resultError(1000005, "系统错误");
     }
   }
   /**

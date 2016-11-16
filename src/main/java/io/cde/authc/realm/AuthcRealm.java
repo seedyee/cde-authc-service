@@ -1,5 +1,6 @@
 package io.cde.authc.realm;
 
+import com.mongodb.DBObject;
 import io.cde.authc.dao.AuthcDao;
 
 import org.apache.shiro.authc.*;
@@ -23,23 +24,27 @@ public class AuthcRealm extends AuthenticatingRealm{
   @Autowired
   private AuthcDao authcDao;
 
-  private Map accountmap = null;
+  private DBObject account = null;
+
+  private DBObject email = null;
+
+  private String principal = null;
 
   @Override
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
     UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
-    String principal = usernamePasswordToken.getUsername();
-    try{
-      accountmap = authcDao.getAccountByPrincipal(principal);
-    }catch (Exception e) {
-      e.printStackTrace();
+    principal = usernamePasswordToken.getUsername();
+    account = authcDao.getAccountByPrincipal(principal);
+    if (account == null) {
       throw new UnknownAccountException();
     }
-    if (accountmap.get("verified").toString().equals("0")) {
+
+    email = authcDao.getEmailByname(account.get("email").toString());
+    if (email.get("isVerified").toString() == "false") {
       throw new UnknownAccountException();
     }
-    String username = accountmap.get("username").toString();
-    String password = accountmap.get("password").toString();
+    String username = account.get("name").toString();
+    String password = account.get("password").toString();
 
     SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
       principal,

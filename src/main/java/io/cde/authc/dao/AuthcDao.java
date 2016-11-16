@@ -3,11 +3,12 @@ package io.cde.authc.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.*;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 /**
 * @author 作者 Fangcai Liao
@@ -18,21 +19,30 @@ import org.springframework.stereotype.Repository;
 public class AuthcDao {
 
   @Autowired
-  public JdbcTemplate jdbcTemplate;
+  MongoOperations mongoOperations;
 
-  @Value("${userdao.sql.getAccountByPrincipal}")
-  public String getAccountByPrincipal;
-
-  List<Map<String, Object>> list = null;
-
-  public Map<String, Object> getAccountByPrincipal (String principal) {
-    try{
-      this.list = this.jdbcTemplate.queryForList(this.getAccountByPrincipal, principal, principal);
-
-      return this.list.get(0);
+  public DBObject getAccountByPrincipal (String principal) {
+    BasicDBList dbList = new BasicDBList();
+    dbList.add(new BasicDBObject("name", principal));
+    dbList.add(new BasicDBObject("email", principal));
+      try{
+      DBObject account = mongoOperations.getCollection("account").findOne(new BasicDBObject("$or", dbList));
+      return account;
     } catch (Exception e) {
       e.printStackTrace();
       throw new UnknownAccountException();
     }
   }
+  public  DBObject getEmailByname (String name) {
+    BasicDBObject conn = new BasicDBObject();
+    conn.put("email", name);
+    try{
+      DBObject email = mongoOperations.getCollection("email").findOne(conn);
+      return email;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new UnknownAccountException();
+    }
+  }
+
 }
