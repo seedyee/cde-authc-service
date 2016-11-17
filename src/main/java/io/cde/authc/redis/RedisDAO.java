@@ -4,6 +4,7 @@ import io.cde.authc.tools.SerializationUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
+import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import java.util.Set;
 * @version 创建时间：Nov 3, 2016 2:27:33 PM
 * 类说明
 */
-public class RedisDAO extends CachingSessionDAO{
+public class RedisDAO extends AbstractSessionDAO {
 
   @Value("${shiro.session.keyPrefix}")
   private String keyPrefix;
@@ -48,21 +49,6 @@ public class RedisDAO extends CachingSessionDAO{
     return sessionId;
   }
   /**
-   * 从 Redis 读取 Session.
-   * @param sessionId
-   * @return
-   * @throws UnknownSessionException
-   */
-  @Override
-  public Session readSession(Serializable sessionId) throws UnknownSessionException {
-    Session session = doReadSession(sessionId);
-    if (session == null) {
-      throw new UnknownSessionException("There is no session with id [" + sessionId + "]");
-    }
-
-    return session;
-  }
-  /**
    * 从 Redis 上读取 session.
    * @param sessionId
    * @return
@@ -83,11 +69,7 @@ public class RedisDAO extends CachingSessionDAO{
    * @param session
    */
   @Override
-  protected void doUpdate(Session session) {
-    // 如果会话过期/停止，没必要再更新了
-    if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
-      return;
-    }
+  public void update(Session session) throws UnknownSessionException{
     String key = SerializationUtils.sessionKey(this.keyPrefix, session);
     String value = SerializationUtils.sessionFromString(session);
     this.redisManager.setex(key, value, this.validTime);
@@ -97,7 +79,7 @@ public class RedisDAO extends CachingSessionDAO{
    * @param session
    */
   @Override
-  protected void doDelete(Session session) {
+  public void delete(Session session) {
     this.redisManager.del(SerializationUtils.sessionKey(this.keyPrefix, session));
   }
   /**
