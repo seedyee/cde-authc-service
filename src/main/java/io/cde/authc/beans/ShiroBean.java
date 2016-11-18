@@ -58,6 +58,7 @@ public class ShiroBean {
     defaultWebSessionManager.setSessionDAO(getRedisSessionDAO());
     defaultWebSessionManager.setSessionIdCookie(getSimpleCookie());
     defaultWebSessionManager.setSessionIdCookieEnabled(true);
+    defaultWebSessionManager.setSessionValidationSchedulerEnabled(false);
 
     return defaultWebSessionManager;
   }
@@ -95,7 +96,7 @@ public class ShiroBean {
   @Bean
   public AuthcRealm getAuthcRealm(){
     AuthcRealm authcRealm = new AuthcRealm();
-    authcRealm.setCachingEnabled(true);
+    authcRealm.setCachingEnabled(false);
 
     return authcRealm;
   }
