@@ -1,51 +1,53 @@
 package io.cde.authc.tools;
 
-import io.cde.authc.domaim.Model;
-import io.cde.authc.domaim.Error;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import io.cde.authc.domaim.ResultModel;
+import io.cde.authc.domaim.ErrorModel;
+
 /**
- * Created by liaofangcai on 11/15/16.
+ * @author 作者 Fangcai Liao.
+ * @version 创建时间：Nov 3, 2016 2:31:44 PM.
+ * 类说明.
  */
 public class ResultUtils {
 
-  private static Model model;
+    private static ResultModel model;
 
-  private static Error error;
-  /**
-   * 返回数据和null错误对象
-   * @param object
-   * @return
-   */
-  public static Object result(Object object) {
-    model = new Model();
-    model.setResult(object);
-    model.setError(null);
-    return model;
-  }
-  /**
-   * 返回错误对象
-   * @param code
-   * @param message
-   * @return
-   */
-  public static Object resultError(int code, String message) {
-    Map<String, Error> resultError = new HashMap<>();
-    error = new Error();
-    error.setCode(code);
-    error.setMessage(message);
-    resultError.put("error", error);
-    return resultError;
-  }
-  /**
-   * 操作成功返回一个null错误对象
-   * @return
-   */
-  public static Object resultNullError(){
-    Map<String, Error> resultError = new HashMap<>();
-    resultError.put("error", null);
-    return resultError;
-  }
+    private static ErrorModel error;
+    /**
+    * 返回数据和null错误对象.
+    * @param object this object.
+    * @return this model.
+    */
+    public static Object result(final Object object) {
+        model = new ResultModel();
+        model.setResult(object);
+        model.setError(null);
+        return model;
+    }
+    /**
+    * 返回错误对象.
+    * @param code this code.
+    * @param message this message.
+    * @return this Object.
+    */
+    public static Object resultError(final int code, final String message) {
+        final Map<String, ErrorModel> resultError = new HashMap<>();
+        error = new ErrorModel();
+        error.setCode(code);
+        error.setMessage(message);
+        resultError.put("error", error);
+        return resultError;
+    }
+    /**
+    * 操作成功返回一个null错误对象.
+    * @return this Object.
+    */
+    public static Object resultNullError() {
+        final Map<String, ErrorModel> resultError = new HashMap<>();
+        resultError.put("error", null);
+        return resultError;
+    }
 }
