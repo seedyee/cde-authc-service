@@ -28,26 +28,28 @@ import io.cde.authc.redis.RedisDAO;
 @Configuration
 public class ShiroConfiguration {
 
-    @Value("${RememberMeCookie.name}")
+    @Value("${authc.rememberMeCookie.name}")
     private String rememberMeCookieName;
 
-    @Value("${RememberMeCookie.HttpOnly}")
+    @Value("${authc.rememberMeCookie.HttpOnly}")
     private boolean rememberMeCookieHttpOnly;
 
-    @Value("${RememberMeCookie.MaxAge}")
+    @Value("${authc.rememberMeCookie.MaxAge}")
     private int rememberMeCookieMaxAge;
-
-    @Value("${SimpleCookie.HttpOnly}")
+    /**
+     * 设置cookie的模式(默认浏览器关闭即失效).
+     */
+    @Value("${authc.simpleCookie.HttpOnly}")
     private boolean simpleCookieHttpOnly;
     /**
      * SimpleCookie模板的名称.
      */
-    @Value("${SimpleCookie.name}")
+    @Value("${authc.simpleCookie.name}")
     private String simpleCookieName;
     /**
      * 有效时间.
      */
-    @Value("${SimpleCookie.MaxAge}")
+    @Value("${authc.simpleCookie.MaxAge}")
     private int simpleCookieMaxAge;
     /**
      * shiro过滤路径所设集合.

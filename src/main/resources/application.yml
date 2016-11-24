@@ -16,24 +16,23 @@ spring:
     mongodb:
       uri: mongodb://192.168.1.116:27017/cde-account-service
         
-shiro:
-  session:
-    keyPrefix: "io.cde.auth.session.id:"
-    validtime: 180
-
-SimpleCookie:
-  name: "io.cde.auth.session.id"
-  HttpOnly: true
-  MaxAge: -1
-
-RememberMeCookie:
-  name: "io.cde.auth.rememberme.id"
-  HttpOnly: true
-  MaxAge: 100
+authc:
+  shiro:
+    session:
+      keyPrefix: "io.cde.auth.session.id:"
+      validtime: 180
+  simpleCookie:
+    name: "io.cde.auth.session.id"
+    HttpOnly: true
+    MaxAge: -1
+  rememberMeCookie:
+    name: "io.cde.auth.rememberme.id"
+    HttpOnly: true
+    MaxAge: 100
 
 logging:
   file: my.log
- 
+
 #eureka:
 #  client:
 #    healthcheck:

@@ -27,12 +27,12 @@ public class RedisDAO extends AbstractSessionDAO {
     /**
      * 存于redis中的key的前缀标识.
      */
-    @Value("${shiro.session.keyPrefix}")
+    @Value("${authc.shiro.session.keyPrefix}")
     private String keyPrefix;
     /**
      * 存于redis中的有效时间.
      */
-    @Value("${shiro.session.validtime}")
+    @Value("${authc.shiro.session.validtime}")
     private int validTime;
     /**
     * DefaultSessionManager 创建完 session 后会调用该方法.
