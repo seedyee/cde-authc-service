@@ -1,10 +1,8 @@
-package io.cde.authc.dao;
+package io.cde.authc.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.mongodb.core.MongoOperations;
-
-import org.apache.shiro.authc.UnknownAccountException;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -18,6 +16,10 @@ import com.mongodb.DBObject;
 @Repository
 public class AuthcDao {
 
+
+    /**
+     * 引入mongodb的.
+     */
     @Autowired
     private MongoOperations mongoOperations;
 
@@ -28,15 +30,12 @@ public class AuthcDao {
      */
     public DBObject getAccountByPrincipal(final String principal) {
         final BasicDBList dbList = new BasicDBList();
+        final DBObject account;
         dbList.add(new BasicDBObject("name", principal));
         dbList.add(new BasicDBObject("email", principal));
-        try {
-            final DBObject account = mongoOperations.getCollection("account").findOne(new BasicDBObject("$or", dbList));
-            return account;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new UnknownAccountException();
-        }
+        account = mongoOperations.getCollection("account").findOne(new BasicDBObject("$or", dbList));
+        return account;
+
     }
 
     /**
@@ -45,15 +44,11 @@ public class AuthcDao {
      * @return this DBObject.
      */
     public  DBObject getEmailByname(final String name) {
-        BasicDBObject conn = new BasicDBObject();
+        final BasicDBObject conn = new BasicDBObject();
+        final DBObject email;
         conn.put("email", name);
-        try {
-            DBObject email = mongoOperations.getCollection("email").findOne(conn);
-            return email;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new UnknownAccountException();
-        }
+        email = mongoOperations.getCollection("email").findOne(conn);
+        return email;
     }
 
 }
