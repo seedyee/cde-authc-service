@@ -36,29 +36,35 @@ public class ShiroConfiguration {
 
     @Value("${authc.rememberMeCookie.MaxAge}")
     private int rememberMeCookieMaxAge;
+
     /**
      * 设置cookie的模式(默认浏览器关闭即失效).
      */
     @Value("${authc.simpleCookie.HttpOnly}")
     private boolean simpleCookieHttpOnly;
+
     /**
      * SimpleCookie模板的名称.
      */
     @Value("${authc.simpleCookie.name}")
     private String simpleCookieName;
+
     /**
      * 有效时间.
      */
     @Value("${authc.simpleCookie.MaxAge}")
     private int simpleCookieMaxAge;
+
     /**
      * shiro过滤路径所设集合.
      */
     private Map<String, String> filterChainDefinitionMap = new HashMap<>();
+
     /**
      * 装载过滤器集合.
      */
     private Map<String, Filter> filterHashMap = new HashMap<>();
+
     /**
      * 声明SessionManager，管理session.
      * @return this SessionManager.
@@ -72,6 +78,7 @@ public class ShiroConfiguration {
         defaultWebSessionManager.setSessionValidationSchedulerEnabled(false);
         return defaultWebSessionManager;
     }
+
     /**
      * 声明RedisDAO，管理对redis的相关操作.
      * @return this RedisDAO.
@@ -81,6 +88,7 @@ public class ShiroConfiguration {
         final RedisDAO redisDAO = new RedisDAO();
         return redisDAO;
     }
+
     /**
      * 声明WebSecurityManager，管理Security.
      * @return this SecurityManager.
@@ -93,6 +101,7 @@ public class ShiroConfiguration {
         securityManager.setRememberMeManager(getCookieRememberMeManager());
         return securityManager;
     }
+
     /**
      * 声明ShiroFilterFactoryBean，初始化shiro配置，添加过滤和登录权限的验证.
      * @return this ShiroFilterFactoryBean.
@@ -107,6 +116,7 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setFilters(filterHashMap);
         return shiroFilterFactoryBean;
     }
+
     /**
      * 声明AuthcRealm，自定义Realm实现，对登录做验证.
      * @return this AuthcRealm.
@@ -117,6 +127,7 @@ public class ShiroConfiguration {
         authcRealm.setCachingEnabled(false);
         return authcRealm;
     }
+
     /**
      * 声明CookieRememberMeManager，管理Cookie.
      * @return this CookieRememberMeManager.
@@ -127,6 +138,7 @@ public class ShiroConfiguration {
         cookieRememberMeManager.setCookie(getRememberMeCookie());
         return  cookieRememberMeManager;
     }
+
     /**
      * 声明Filter，完成shiro的拦截登录验证.
      * @return this Filter.
@@ -136,6 +148,7 @@ public class ShiroConfiguration {
         final AuthcFilter authcFilter = new AuthcFilter();
         return authcFilter;
     }
+
     /**
      * 设置 SimpleCookie，根据配置参数设置模板.
      * @return this RememberMeCookie.
@@ -146,6 +159,7 @@ public class ShiroConfiguration {
         simpleCookie.setMaxAge(rememberMeCookieMaxAge);
         return simpleCookie;
     }
+
     /**
      * 设置 SimpleCookie，根据配置参数设置模板.
      * @return this SimpleCookie.
