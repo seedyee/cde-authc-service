@@ -9,13 +9,11 @@ spring:
       max-wait: 1
       max-idle: 8
       min-idle: 0 
-  output:
-    ansi:
-      enabled: DETECT
+
   data:
     mongodb:
-      uri: mongodb://192.168.1.116:27017/cde-account-service
-        
+      uri: mongodb://192.168.1.13:27017/cde-account-service
+
 authc:
   shiro:
     session:
@@ -29,9 +27,6 @@ authc:
     name: "io.cde.auth.rememberme.id"
     HttpOnly: true
     MaxAge: 100
-
-logging:
-  file: my.log
 
 #eureka:
 #  client:
